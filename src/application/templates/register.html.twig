@@ -1,0 +1,39 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Accueil | Blog{% endblock %}
+
+{% block body %}
+    <!-- Page Header -->
+    <header class="masthead" style="background-image: url('../../assets/aboutme/{{ aboutMe.picture }}')">
+        <div class="overlay"></div>
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-8 col-md-10 mx-auto">
+                    <div class="site-heading">
+                        <h1>{{ aboutMe.firstname }} {{ aboutMe.lastname|upper }}</h1>
+                        <span class="subheading">{{ aboutMe.slogan }}</span>
+                        <img src="../../assets/aboutme/{{ aboutMe.profilPicture }}" class="profil-picture" alt="profil picture">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-md-10 mx-auto">
+                {% include 'include/flashmessages.html.twig' %}
+                <h2 class="text-center">Inscription</h2>
+                <form name="sentMessage" id="contactForm" novalidate method="POST" action="/ajout-utilisateur">
+                    {% include 'form/register_form.html.twig' %}
+                    <button type="submit" class="btn btn-primary" id="sendMessageButton">Confirmer</button>
+                </form>
+            </div>
+        </div>
+    </div>
+    <hr>
+{% endblock %}
+
+{% block script %}
+{% endblock %}

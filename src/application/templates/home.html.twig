@@ -1,0 +1,51 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Accueil | Blog{% endblock %}
+
+{% block body %}
+    <!-- Page Header -->
+    <header class="masthead" style="background-image: url('../../assets/aboutme/{{ aboutMe.picture }}')">
+        <div class="overlay"></div>
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-8 col-md-10 mx-auto">
+                    <div class="site-heading">
+                        <h1>{{ aboutMe.firstname }} {{ aboutMe.lastname|upper }}</h1>
+                        <span class="subheading">{{ aboutMe.slogan }}</span>
+                        <img src="../../assets/aboutme/{{ aboutMe.profilPicture }}" class="profil-picture" alt="profil picture">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-md-10 mx-auto">
+                {% include 'include/flashmessages.html.twig' %}
+                <h2>Qui suis-je ?</h2>
+                <p>{{ aboutMe.bio }}</p>
+                <div class="mx-auto" style="width: 200px;">
+                    <a href="../../assets/aboutme/{{ aboutMe.cvPdf }}" class="btn btn-secondary btn-lg active" download="">Mon CV</a>
+                </div>
+
+                <p>Vous souhaitez me contacter ? Alors cela ce passe juste en dessous ! Remplisser le formulaire vous serez recontacter rapidement.</p>
+                <!-- Contact Form - Enter your email address on line 19 of the mail/contact_me.php file to make this form work. -->
+                <!-- WARNING: Some web hosts do not allow emails to be sent through forms to common mail hosts like Gmail or Yahoo. It's recommended that you use a private domain email address! -->
+                <!-- To use the contact form, your site must be on a live web host with PHP! The form will not work locally! -->
+                <form name="sentMessage" id="contactForm" novalidate method="POST" action="/contact">
+                    {% include 'form/contact_form.html.twig' %}
+                    <button type="submit" class="btn btn-primary" id="sendMessageButton">Envoyer</button>
+                </form>
+            </div>
+        </div>
+    </div>
+    <hr>
+{% endblock %}
+
+{% block script %}
+    <!-- Contact Form JavaScript -->
+    <script src="../../assets/js/jqBootstrapValidation.js"></script>
+    <!-- <script src="../../assets/js/contact_me.js"></script> -->
+{% endblock %}

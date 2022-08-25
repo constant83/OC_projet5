@@ -1,0 +1,75 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ post.title}} | Blog{% endblock %}
+
+{% block body %}
+    <!-- Page Header -->
+    <header class="masthead" style="background-image: url('../../assets/img/post/{{ post.picture }}')">
+        <div class="overlay"></div>
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-8 col-md-10 mx-auto">
+                    <div class="post-heading text-center">
+                        <h1>{{ post.title}}</h1>
+                        <h2 class="subheading">{{ post.subtitle}}</h2>
+                        <span class="meta">Posté le {{ post.createdAt|date("d/m/Y") }} par {{ aboutMe.firstname }} {{ aboutMe.lastname }}</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Post Content -->
+    <article>
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-8 col-md-10 mx-auto">
+                    {% include 'include/flashmessages.html.twig' %}
+                    <p>{{ post.content|raw|nl2br }}</p>
+                    <hr>
+                    <h4>Commentaires</h4>
+                    <br>
+                    {% if session.email is not defined %}
+                        <div class="card">
+                            <div class="card-body bg-light">
+                                <p>Vous souhaitez laisser un commentaire ? <a href="/connexion" class="badge badge-pill badge-primary">Connectez-vous</a></p>
+                                <p>Pas de compte ? Alors inscris toi <a class="badge badge-pill badge-primary" href="/inscription">ici</a></p>
+                            </div>
+                        </div>
+                    {% endif  %}
+                    {% if session.email is not empty %}
+                        <h5>Laisser un commentaire :</h5>
+                        <form name="sentMessage" id="contactForm" novalidate method="POST" action="/article/{{ post.id }}/commentaire">
+                            {% include 'form/comment_form.html.twig' %}
+                            <button type="submit" class="btn btn-primary" id="sendMessageButton">Envoyer</button>
+                        </form>
+                        <hr>
+                        <br>
+                    {% endif %}
+                    <ul class="list-unstyled">
+                        {% for comment in post.comments %}
+                        <li class="media comment-container">
+                            {% if comment.user.profilPicture is not empty %}
+                            <img class="mr-3 comment-user-picture" src="../../assets/img/user/profil_picture/{{ comment.user.profilPicture }}" alt="User profil picture">
+                                {% else %}
+                                    <img class="mr-3 comment-user-picture" src="../../assets/img/user/profil_picture/user-unknown.png" alt="User profil picture">
+                            {% endif %}
+                            <div class="media-body">
+                                <h5>{{ comment.user.pseudo }}</h5>
+                                <h6 class="comment-date">{{ comment.createdA|date("d/m/Y") }}</h6>
+                                <p class="comment-content">{{ comment.content }}</p>
+                            </div>
+                        </li>
+                        {% endfor %}
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </article>
+    <hr>
+{% endblock %}
+
+{% block script %}
+    <!-- Contact Form JavaScript -->
+    <script src="../../assets/js/jqBootstrapValidation.js"></script>
+{% endblock %}

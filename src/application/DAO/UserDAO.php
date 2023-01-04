@@ -50,7 +50,7 @@ class UserDAO extends DAO
     public function getUserByEmail(string $email): ?UserDTO
     {
         // Retrieves user on email
-        $req = $this->db->query('SELECT * FROM user WHERE email = \''.$email.'\'');
+        $req = $this->db->query('SELECT * FROM user WHERE email = :email',['email' => $email]);
         $user = $req->fetch(\PDO::FETCH_ASSOC);
 
         // If user doesn't find return null
@@ -66,7 +66,7 @@ class UserDAO extends DAO
     public function getUserByPseudo(string $pseudo): ?UserDTO
     {
         // Retrieves user on pseudo
-        $req = $this->db->query('SELECT * FROM user WHERE pseudo = \''.$pseudo.'\'');
+        $req = $this->db->query('SELECT * FROM user WHERE pseudo = :pseudo',['pseudo' => $pseudo]);
         $user = $req->fetch(\PDO::FETCH_ASSOC);
 
         // If user doesn't find return null
@@ -82,7 +82,7 @@ class UserDAO extends DAO
     public function getUserById(int $id): ?UserDTO
     {
         // Retrieves user on id
-        $req = $this->db->query('SELECT * FROM user WHERE id = \''.$id.'\'');
+        $req = $this->db->query('SELECT * FROM user WHERE id = :id',['id' => $id]);
         $user = $req->fetch(\PDO::FETCH_ASSOC);
 
         // If user doesn't find return null
@@ -101,9 +101,9 @@ class UserDAO extends DAO
             // Set deactivated_at date to null if not a datetime
             $deactivatedAt = $userDTO->getDeactivatedAt() ? $userDTO->getDeactivatedAt()->format('Y-m-d H:i:s') : null;
             // Prepare the request
-            $req = $this->db->prepare('UPDATE user SET email=:email, password=:password, pseudo=:pseudo, role=:role, profil_picture=:profilPicture, is_deactivated=:isDeactivated, reason_deactivation=:reasonDeactivation, deactivated_at=:deactivatedAt WHERE id = \''.$userDTO->getId().'\'');
+            $req = $this->db->prepare('UPDATE user SET email=:email, password=:password, pseudo=:pseudo, role=:role, profil_picture=:profilPicture, is_deactivated=:isDeactivated, reason_deactivation=:reasonDeactivation, deactivated_at=:deactivatedAt WHERE id = :id');
             // Update the user
-            $result = $req->execute(['email' => $userDTO->getEmail(), 'password' => $userDTO->getPassword(), 'pseudo' => $userDTO->getPseudo(), 'role' => $userDTO->getRole(), 'profilPicture' => $userDTO->getProfilPicture(), 'isDeactivated' => $userDTO->getIsDeactivated(), 'reasonDeactivation' => $userDTO->getReasonDeactivation(), 'deactivatedAt' => $deactivatedAt]);
+            $result = $req->execute(['email' => $userDTO->getEmail(), 'password' => $userDTO->getPassword(), 'pseudo' => $userDTO->getPseudo(), 'role' => $userDTO->getRole(), 'profilPicture' => $userDTO->getProfilPicture(), 'isDeactivated' => $userDTO->getIsDeactivated(), 'reasonDeactivation' => $userDTO->getReasonDeactivation(), 'deactivatedAt' => $deactivatedAt, 'id' => $userDTO->getId()]);
         } else {
             // Prepare the request
             $req = $this->db->prepare('INSERT INTO `user`(`email`, `password`, `pseudo`, `role`, `profil_picture`, `date_registered`, `is_deactivated`, `reason_deactivation`, `deactivated_at`) VALUES(:email, :password, :pseudo, :role, :profilPicture, :dateRegistered, :isDeactivated, :reasonDeactivation, :deactivatedAt)');

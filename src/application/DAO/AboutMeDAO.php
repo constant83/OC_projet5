@@ -28,10 +28,10 @@ class AboutMeDAO extends DAO
             $aboutMe = $req->execute(['firstname' => $aboutMe->getFirstname(), 'lastname' => $aboutMe->getLastname(), 'slogan' => $aboutMe->getSlogan(), 'bio' => $aboutMe->getBio(), 'profil_picture' => $aboutMe->getProfilPicture(), 'cv_pdf' => $aboutMe->getCvPdf(), 'picture' => $aboutMe->getPicture(), 'twitter_link' => $aboutMe->getTwitterLink(), 'linkedin_link' => $aboutMe->getLinkedinLink(), 'github_link' => $aboutMe->getGithubLink()]);
         } else {
             // Prepares the request
-            $req = $this->db->prepare('UPDATE about_me SET firstname=:firstname, lastname=:lastname, slogan=:slogan, bio=:bio, profil_picture=:profil_picture, cv_pdf=:cv_pdf, picture=:picture, twitter_link=:twitter_link, linkedin_link=:linkedin_link, github_link=:github_link WHERE id = \''.$aboutMe->getId().'\'');
+            $req = $this->db->prepare('UPDATE about_me SET firstname=:firstname, lastname=:lastname, slogan=:slogan, bio=:bio, profil_picture=:profil_picture, cv_pdf=:cv_pdf, picture=:picture, twitter_link=:twitter_link, linkedin_link=:linkedin_link, github_link=:github_link WHERE id = :id');
 
             // Inserts Updated Data
-            $aboutMe = $req->execute(['firstname' => $aboutMe->getFirstname(), 'lastname' => $aboutMe->getLastname(), 'slogan' => $aboutMe->getSlogan(), 'bio' => $aboutMe->getBio(), 'profil_picture' => $aboutMe->getProfilPicture(), 'cv_pdf' => $aboutMe->getCvPdf(), 'picture' => $aboutMe->getPicture(), 'twitter_link' => $aboutMe->getTwitterLink(), 'linkedin_link' => $aboutMe->getLinkedinLink(), 'github_link' => $aboutMe->getGithubLink()]);
+            $aboutMe = $req->execute(['firstname' => $aboutMe->getFirstname(), 'lastname' => $aboutMe->getLastname(), 'slogan' => $aboutMe->getSlogan(), 'bio' => $aboutMe->getBio(), 'profil_picture' => $aboutMe->getProfilPicture(), 'cv_pdf' => $aboutMe->getCvPdf(), 'picture' => $aboutMe->getPicture(), 'twitter_link' => $aboutMe->getTwitterLink(), 'linkedin_link' => $aboutMe->getLinkedinLink(), 'github_link' => $aboutMe->getGithubLink(), 'id' => $aboutMe->getId()]);
         }
 
         return $aboutMe;

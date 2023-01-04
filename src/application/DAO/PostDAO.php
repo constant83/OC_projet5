@@ -69,7 +69,7 @@ class PostDAO extends DAO
     public function getPostById(int $postId, bool $details = false): ?PostDTO
     {
         // Retrieves post on id
-        $req = $this->db->query('SELECT * FROM post WHERE id = \''.$postId.'\' LIMIT 1');
+        $req = $this->db->query('SELECT * FROM post WHERE id = :id LIMIT 1',['id' => $postId]);
         $post = $req->fetch(\PDO::FETCH_ASSOC);
 
         // If post doesn't find return null
@@ -133,9 +133,9 @@ class PostDAO extends DAO
             // Set archived_at date to null if not a datetime
             $archivedAt = $postDTO->getArchivedAt() ? $postDTO->getArchivedAt()->format('Y-m-d H:i:s') : null;
             // Prepare the request
-            $req = $this->db->prepare('UPDATE post SET title=:title, slug=:slug, subtitle=:subtitle, updated_at=:updated_at, content=:content, resume=:resume, picture=:picture, archived_at=:archived_at, is_archived=:is_archived WHERE id = '.$postDTO->getId());
+            $req = $this->db->prepare('UPDATE post SET title=:title, slug=:slug, subtitle=:subtitle, updated_at=:updated_at, content=:content, resume=:resume, picture=:picture, archived_at=:archived_at, is_archived=:is_archived WHERE id = :id');
             // Update the post
-            $result = $req->execute(['title' => $postDTO->getTitle(), 'slug' => $postDTO->getSlug(), 'subtitle' => $postDTO->getSubtitle(), 'updated_at' => date('Y-m-d H:i:s'), 'content' => $postDTO->getContent(), 'resume' => $postDTO->getResume(), 'picture' => $postDTO->getPicture(), 'archived_at' => $archivedAt, 'is_archived' => $postDTO->getIsArchived()]);
+            $result = $req->execute(['title' => $postDTO->getTitle(), 'slug' => $postDTO->getSlug(), 'subtitle' => $postDTO->getSubtitle(), 'updated_at' => date('Y-m-d H:i:s'), 'content' => $postDTO->getContent(), 'resume' => $postDTO->getResume(), 'picture' => $postDTO->getPicture(), 'archived_at' => $archivedAt, 'is_archived' => $postDTO->getIsArchived(), 'id' => $postDTO->getId()]);
         } else {
             // Prepare the request
             $req = $this->db->prepare('INSERT INTO `post`(`title`, `slug`, `subtitle`, `created_at`, `content`, `resume`, `picture`, `is_archived`) VALUES(:title, :slug, :subtitle, :created_at, :content, :resume, :picture, :is_archived)');
@@ -151,7 +151,7 @@ class PostDAO extends DAO
     {
         // If the post doesn't exists return null
         if (empty($postDTO->getId())) {
-            return null;
+            return 0;
         }
 
         // Checks if the posts got comments
@@ -164,6 +164,7 @@ class PostDAO extends DAO
         }
 
         // Deletes post
-        return $this->db->exec('DELETE FROM post WHERE id = '.$postDTO->getId());
+        $req = $this->db->prepare('DELETE FROM post WHERE id = :id') ;
+        return $req->execute(['id' => $postDTO->getId()]);
     }
 }

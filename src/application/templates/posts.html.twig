@@ -11,7 +11,7 @@
                 <div class="col-lg-8 col-md-10 mx-auto">
                     <div class="site-heading">
                         <h1>{{ aboutMe.firstname }} {{ aboutMe.lastname|upper }}</h1>
-                        <span class="subheading">{{ aboutMe.slogan | convert_encoding('UTF-8', 'ISO-8859-1')}}</span>
+                        <span class="subheading">{{ aboutMe.slogan }}</span>
                         <img src="../../assets/aboutme/{{ aboutMe.profilPicture }}" class="profil-picture" alt="profil-picture">
                     </div>
                 </div>
@@ -27,10 +27,10 @@
                     <div class="post-preview text-center">
                         <a href="/article/{{ post.slug }}">
                             <h2 class="post-title">
-                                {{ post.title | convert_encoding('UTF-8', 'ISO-8859-1')}}
+                                {{ post.title }}
                             </h2>
                             <h3 class="post-subtitle">
-                                {{ post.resume | convert_encoding('UTF-8', 'ISO-8859-1')}}
+                                {{ post.resume }}
                             </h3>
                         </a>
                         <p class="post-meta">Posté le {{ post.createdAt|date("d/m/Y") }}</p>

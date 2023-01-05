@@ -14,7 +14,7 @@
                 <div class="col-lg-8 col-md-10 mx-auto">
                     <div class="site-heading">
                         <h1>{{ aboutMe.firstname }} {{ aboutMe.lastname|upper }}</h1>
-                        <span class="subheading">{{ aboutMe.slogan }}</span>
+                        <span class="subheading">{{ aboutMe.slogan | convert_encoding('UTF-8', 'ISO-8859-1')}}</span>
                         <img src="../../assets/aboutme/{{ aboutMe.profilPicture }}" class="profil-picture" alt="profil picture">
                     </div>
                 </div>

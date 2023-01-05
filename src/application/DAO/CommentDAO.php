@@ -97,8 +97,8 @@ class CommentDAO extends DAO
     public function getCommentById(int $id): ?CommentDTO
     {
         // Retrieves comment on id
-        $sql = 'SELECT * FROM comment WHERE id = ?';
-        $req = $this->db->query($sql, array($id));
+        $req = $this->db->prepare('SELECT * FROM comment WHERE id = :id');
+        $req->execute(['id' => $id]);
         $comment = $req->fetch(\PDO::FETCH_ASSOC);
 
         // If comment doesn't find return null

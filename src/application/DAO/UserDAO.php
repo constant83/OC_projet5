@@ -50,7 +50,8 @@ class UserDAO extends DAO
     public function getUserByEmail(string $email): ?UserDTO
     {
         // Retrieves user on email
-        $req = $this->db->query('SELECT * FROM user WHERE email = :email',['email' => $email]);
+        $req = $this->db->prepare('SELECT * FROM user WHERE email = :email');
+        $req->execute(['email' => $email]);
         $user = $req->fetch(\PDO::FETCH_ASSOC);
 
         // If user doesn't find return null
@@ -66,7 +67,8 @@ class UserDAO extends DAO
     public function getUserByPseudo(string $pseudo): ?UserDTO
     {
         // Retrieves user on pseudo
-        $req = $this->db->query('SELECT * FROM user WHERE pseudo = :pseudo',['pseudo' => $pseudo]);
+        $req = $this->db->prepare('SELECT * FROM user WHERE pseudo = :pseudo');
+        $req->execute(['pseudo' => $pseudo]);
         $user = $req->fetch(\PDO::FETCH_ASSOC);
 
         // If user doesn't find return null
@@ -82,7 +84,9 @@ class UserDAO extends DAO
     public function getUserById(int $id): ?UserDTO
     {
         // Retrieves user on id
-        $req = $this->db->query('SELECT * FROM user WHERE id = :id',['id' => $id]);
+
+        $req = $this->db->prepare('SELECT * FROM user WHERE id = :id');
+        $req->execute(['id' => $id]);
         $user = $req->fetch(\PDO::FETCH_ASSOC);
 
         // If user doesn't find return null
